@@ -68,7 +68,7 @@ $(document).on('pagecreate', '[data-role="page"][data-header]', function () {
 
   $this.find('[data-role="header"]').remove();
 
-  $('<div></div>').attr(attrs).prependTo(this).html(function () {
+  $('<div id="suAppHeader"></div>').attr(attrs).prependTo(this).html(function () {
     return JST[headerTemplate](templateData);
   }).addClass(addClass);
 

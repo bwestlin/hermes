@@ -34,13 +34,17 @@ var inAppBrowser = (function() {
   
   return {
     open: function(url) {
-      inAppBrowser = window.open('in-app-browser.html', '_blank', 'location=no');
+      var rootPath = window.location.href.substring(0, window.location.href.indexOf('www') + 3);
+      inAppBrowser = window.open(rootPath + '/in-app-browser.html', '_blank', 'location=no');
       
       inAppBrowser.addEventListener('loadstart', function() {
         gaPlugin.trackPage(null, null, url);
+        
+        var script = "$('#frame2').attr('src', '" + url + "'); ";
+        script += "$('#frame2').outerHeight($('body').outerHeight() - $('suAppHeader').outerHeight()); ";
   
         inAppBrowser.executeScript({
-          code: "$('#frame2').attr('src', '" + url + "');"
+          code: script
         });
       });
       
@@ -49,7 +53,6 @@ var inAppBrowser = (function() {
       inAppBrowser.addEventListener('loadstart', this.loadStop);
       // Removing listeners after closing inAppBrowser
       inAppBrowser.addEventListener('exit', this.close);
-  
       
       return false;
     },
@@ -63,7 +66,6 @@ var inAppBrowser = (function() {
     close: function(event) {
       inAppBrowser.removeEventListener('loadstart', loadStop);
       inAppBrowser.removeEventListener('exit', close); 
-      inAppBrowser = null; // Closing
     }
   };
 }());
