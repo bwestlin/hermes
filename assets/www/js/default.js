@@ -75,10 +75,10 @@ $(document).on('pagecreate', '[data-role="page"][data-header]', function () {
 });
 
 /*
- * Default handling of external link with target=_blank attribute
+ * Default handling of external link with target=inAppBrowser attribute
  * which opens in the InAppBrowser
  */
-$(document).on("click", "a[target=_blank][data-rel!=external]", function (event) {
+$(document).on("click", "a[target=inAppBrowser][data-rel!=external]", function (event) {
   event.preventDefault();
   event.stopImmediatePropagation();
 
