@@ -83,7 +83,6 @@ $(document).on("click", "a[target=inAppBrowser][data-rel!=external]", function (
   event.stopImmediatePropagation();
 
   var href = $(this).attr("href");
-  if (!href) href = $(this).data("href");
   var title = $(this).data("title");
 
   inAppBrowser.open(href, title);

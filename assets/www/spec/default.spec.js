@@ -114,6 +114,32 @@ describe('Default-header', function () {
   });
 });
 
+describe('InAppBrowser link', function () {
+
+  describe('when document contains links with target inAppBrowser', function () {
+
+    beforeEach(function () {
+      var html = '<div data-role="page" id="page"><div data-role="content"><a href="testing.html" data-title="title" target="inAppBrowser">test</a></div></div>';
+      $('#stage').replaceWith(html);
+      $.mobile.loadPage("#page", {prefetch: "true"});
+      $.mobile.activePage = $('#page');
+    });
+
+
+    afterEach(function () {
+      $('#page').replaceWith("<div id='stage'></div>");
+    });
+
+    it('should open link href in the inAppBrowser', function () {
+      spyOn(inAppBrowser, "open");
+
+      $("#page").find("a").trigger("click");
+
+      expect(inAppBrowser.open).toHaveBeenCalledWith("testing.html", "title");
+    });
+  });
+});
+
 describe('Error-dialog', function () {
   describe('when error occurs', function () {
     afterEach(function () {

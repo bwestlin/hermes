@@ -29,13 +29,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-window.plugins = {
-  gaPlugin: {
-    init: function () {
-    },
-    trackPage: function () {
-    }
-  }
-};
+describe('inAppBrowser', function () {
 
-window.gaPlugin = window.plugins.gaPlugin;
+  describe('should ', function () {
+    spyOn(window, "open").andCallThrough();
+    spyOn(window.plugins.gaPlugin, 'trackPage');
+
+    inAppBrowser.open("url", "title");
+
+    var rootPath = window.location.href.substring(0, window.location.href.indexOf('www') + 3);
+    expect(window.open).toHaveBeenCalledWith(rootPath + '/in-app-browser.html', '_blank', 'location=no');
+    expect(window.plugins.gaPlugin.trackPage).toHaveBeenCalledWith(null, null, 'url');
+  });
+});
