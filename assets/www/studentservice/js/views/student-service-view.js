@@ -31,7 +31,7 @@
 
 suApp.view.StudentView = Backbone.View.extend({
   self: null,
-  
+
   initialize: function () {
     self = this;
 
@@ -69,18 +69,8 @@ suApp.view.StudentView = Backbone.View.extend({
   },
 
   events: {
-    'click a.servicelink': 'handleServiceLinkClick',
-    'click #studentservice-menu a': 'openChildBrowser'
+    'click a.servicelink': 'handleServiceLinkClick'
   },
-  
-  openChildBrowser: function(e) {
-    e.preventDefault();
-    var url = $(e.target).closest('a').attr('href');
-    inAppBrowser.open(url);
-
-    return false;    
-  },
-  
 
   /**
    * Remove handler for the view.

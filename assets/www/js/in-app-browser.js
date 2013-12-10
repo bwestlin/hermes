@@ -31,41 +31,44 @@
 
 var inAppBrowser = (function() {
   var inAppBrowser;
-  
+
   return {
-    open: function(url) {
+    open: function(url, title) {
       var rootPath = window.location.href.substring(0, window.location.href.indexOf('www') + 3);
       inAppBrowser = window.open(rootPath + '/in-app-browser.html', '_blank', 'location=no');
-      
-      inAppBrowser.addEventListener('loadstart', function() {
+
+      inAppBrowser.addEventListener('loadstop', function() {
         gaPlugin.trackPage(null, null, url);
-        
-        var script = "$('#frame2').attr('src', '" + url + "'); ";
-        script += "$('#frame2').outerHeight($('body').outerHeight() - $('suAppHeader').outerHeight()); ";
-  
+
         inAppBrowser.executeScript({
-          code: script
+          code: "loadPage('" + url + "');"
         });
+        if (title) {
+          inAppBrowser.executeScript({
+            code: "setTitle('" + title + "');"
+          });
+        }
       });
-      
-      // Closing inAppBrowser when going a specific url, since we can't close the inAppBrowser 
+
+      // Closing inAppBrowser when going a specific url, since we can't close the inAppBrowser
       // from inside itself (security feature in inAppBrowser)
-      inAppBrowser.addEventListener('loadstart', this.loadStop);
+      inAppBrowser.addEventListener('loadstart', this.loadStart);
       // Removing listeners after closing inAppBrowser
       inAppBrowser.addEventListener('exit', this.close);
-      
+
       return false;
     },
-    
-    loadStop: function(event) {
+
+    loadStart: function(event) {
       if(event.url.indexOf("closeInAppBrowser.html") != -1){
         inAppBrowser.close();
       }
     },
-    
+
     close: function(event) {
-      inAppBrowser.removeEventListener('loadstart', loadStop);
-      inAppBrowser.removeEventListener('exit', close); 
+      inAppBrowser.removeEventListener('loadstart', this.loadStart);
+      inAppBrowser.removeEventListener('exit', this.close);
+      inAppBrowser = null; // Closing
     }
   };
 }());

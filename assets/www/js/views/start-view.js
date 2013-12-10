@@ -30,24 +30,31 @@
  */
 
 suApp.view.StartView = Backbone.View.extend({
-  
+
   initialize: function () {
     $(document).on('deviceready.appview', this.handleDeviceReady);
 
     initLocale();
     $('div[data-role="header"] > h1').attr('data-i18n', 'start.header.title');
     this.$el.i18n();
-    
-    this.setSisuLink();
+
+    this.setupScheduleLink();
+    this.setupSisuLink();
   },
 
   events: {
-    'click #schedule-link, #sisulink': 'openInAppBrowser'
   },
 
-  setSisuLink: function (event) {
+  setupScheduleLink: function () {
+    var title = $('#schedule-link span').text();
+    $('#schedule-link').attr('data-title', title);
+  },
+
+  setupSisuLink: function () {
     // Translated url to redirect the user to the SISU page with corresponding language.
     $('#sisulink').attr('href', i18n.t("start.sisu.link"));
+    var title = $('#sisulink span').text();
+    $('#sisulink').attr('data-title', title);
   },
 
   /**
@@ -65,12 +72,5 @@ suApp.view.StartView = Backbone.View.extend({
   handleDeviceReady: function () {
     window.setTimeout(navigator.splashscreen.hide, suApp.config.core.splashscreen.timeout);
     gaPlugin.trackPage(null, null, "index.html");
-  },
-  
-  openInAppBrowser: function(evt) {
-    var url = $(evt.target).closest('a').attr('href');
-    inAppBrowser.open(url);
-    
-    return false;
-  }  
+  }
 });
