@@ -36,9 +36,9 @@ var inAppBrowser = (function() {
     open: function(url, title) {
       var rootPath = window.location.href.substring(0, window.location.href.indexOf('www') + 3);
       inAppBrowser = window.open(rootPath + '/in-app-browser.html', '_blank', 'location=no');
+      gaPlugin.trackPage(null, null, url);
 
       inAppBrowser.addEventListener('loadstop', function() {
-        gaPlugin.trackPage(null, null, url);
 
         inAppBrowser.executeScript({
           code: "loadPage('" + url + "');"
