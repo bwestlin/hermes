@@ -35,26 +35,28 @@
   <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>In App Browser</title>
 
-  <link rel="stylesheet" href="css/lib/jquery.mobile-1.3.1.min.css"/>
-  <link rel="stylesheet" href="css/SU-ThemeA-B.css"/>
-  <link rel="stylesheet" href="css/SU-beta.css"/>
+  <link rel="stylesheet" href="../css/lib/jquery.mobile-1.3.1.min.css"/>
+  <link rel="stylesheet" href="../css/SU-ThemeA-B.css"/>
+  <link rel="stylesheet" href="../css/SU-beta.css"/>
 
   <!-- maximum scale added to stop zoom on select controls -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 
 
-  <script src="js/lib/jquery-1.8.2.min.js"></script>
-  <script src="js/lib/jquery.mobile-1.3.1.min.js"></script>
+  <script src="../js/lib/jquery-1.8.2.min.js"></script>
+  <script src="../js/lib/jquery.mobile-1.3.1.min.js"></script>
 
-  <script src="js/lib/fastclick/fastclick.min.js"></script>
-  <script src="js/lib/underscore-1.4.4-min.js"></script>
-  <script src="js/lib/backbone-1.0.0-min.js"></script>
+  <script src="../js/lib/fastclick/fastclick.min.js"></script>
+  <script src="../js/lib/underscore-1.4.4-min.js"></script>
+  <script src="../js/lib/backbone-1.0.0-min.js"></script>
 
   <!-- Default javascripts -->
-  <script src="js/default.js"></script>
-  <script src="js/jst/common.js"></script>
-  <script src="js/lib/i18next-1.6.2.min.js"></script>
-  <script src="js/locale.js"></script>
+  <script src="../js/default.js"></script>
+  <script src="../js/jst/common.js"></script>
+  <script src="../js/lib/i18next-1.6.2.min.js"></script>
+  <script src="../js/locale.js"></script>
+  <script src="js/jst/menu.js"></script>
+  <script src="js/views/in-app-browser-view.js"></script>
   
 </head>
 <body>
@@ -63,8 +65,14 @@
      data-header-options="inAppBrowserBackButton inAppBrowserHomeButton"
      data-prefetch>
      
-  <iframe id="frame2" src="#" style="width:100%; height:90%" frameBorder="0" seamless></iframe>
+  <iframe id="frame2" src="http://www.su.se" style="width:100%; height:400px" frameBorder="0" seamless></iframe>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    var inAppBrowserView = new suApp.view.InAppBrowserView({ el: $('#inappbrowser_page') });
+  });
+</script>
 
 </body>
 </html>
