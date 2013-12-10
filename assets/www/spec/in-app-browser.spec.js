@@ -31,14 +31,30 @@
 
 describe('inAppBrowser', function () {
 
-  describe('should ', function () {
-    spyOn(window, "open").andCallThrough();
-    spyOn(window.plugins.gaPlugin, 'trackPage');
+  describe('Open function', function () {
+    beforeEach(function () {
+      spyOn(window, "open").andCallThrough();
+      spyOn(window.plugins.gaPlugin, 'trackPage');
+      spyOn(window.plugins.inAppBrowser, 'addEventListener');
 
-    inAppBrowser.open("url", "title");
+      inAppBrowser.open("url", "title");
+    });
 
-    var rootPath = window.location.href.substring(0, window.location.href.indexOf('www') + 3);
-    expect(window.open).toHaveBeenCalledWith(rootPath + '/in-app-browser.html', '_blank', 'location=no');
-    expect(window.plugins.gaPlugin.trackPage).toHaveBeenCalledWith(null, null, 'url');
+    it('should call window open', function () {
+      var rootPath = window.location.href.substring(0, window.location.href.indexOf('www') + 3);
+      expect(window.open).toHaveBeenCalledWith(rootPath + '/in-app-browser.html', '_blank', 'location=no');
+    });
+
+    it('should track opened page', function () {
+      expect(window.plugins.gaPlugin.trackPage).toHaveBeenCalledWith(null, null, 'url');
+    });
+
+    it('should add event listeners', function () {
+      expect(window.plugins.inAppBrowser.addEventListener.calls.length).toEqual(3);
+      expect(window.plugins.inAppBrowser.addEventListener.calls[0].args[0]).toEqual("loadstop");
+      expect(window.plugins.inAppBrowser.addEventListener.calls[1].args[0]).toEqual("loadstart");
+      expect(window.plugins.inAppBrowser.addEventListener.calls[2].args[0]).toEqual("exit");
+    });
   });
+
 });

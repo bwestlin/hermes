@@ -35,7 +35,17 @@ window.plugins = {
     },
     trackPage: function () {
     }
+  },
+  inAppBrowser: {
+    addEventListener: function () {
+    },
+    executeScript: function () {
+    }
   }
 };
 
 window.gaPlugin = window.plugins.gaPlugin;
+
+window.open = function () {
+  return window.plugins.inAppBrowser;
+}
